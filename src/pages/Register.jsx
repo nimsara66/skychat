@@ -4,10 +4,12 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { auth, storage, db } from '../firebase'
 import { doc, setDoc } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [err, setErr] = useState(false)
   const [imgUpload, setImgUpload] = useState(null)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -37,9 +39,9 @@ const Register = () => {
               photoURL: downloadURL,
             })
 
-            //create empty user chats on firestore
-            // await setDoc(doc(db, 'userChats', res.user.uid), {})
-            // navigate('/')
+            // create empty user chats on firestore
+            await setDoc(doc(db, 'userChats', res.user.uid), {})
+            navigate('/')
           } catch (err) {
             console.log(err)
             setErr(true)

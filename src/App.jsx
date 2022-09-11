@@ -1,14 +1,20 @@
 import { Register, Login, Home } from './pages/'
-import ParticleBackground from './components/ParticleBackground'
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
+// import ParticleBackground from './components/ParticleBackground'
 
 import './styles/_main.scss'
 
 function App() {
   return (
-    <>
-    {/* <ParticleBackground /> */}
-    <Register />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/'>
+          <Route index element={<Home />} />
+          <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
