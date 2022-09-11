@@ -7,7 +7,7 @@ function App() {
   return (
     <>
     {/* <ParticleBackground /> */}
-    <Home />
+    <Register />
     </>
   )
 }

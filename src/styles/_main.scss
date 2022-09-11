@@ -1,3 +1,21 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+
 @import url(https://fonts.googleapis.com/css?family=Varela);
 
 * {
@@ -34,7 +52,9 @@ html {
       color: #5d5b8d;
       font-weight: bold;
       font-size: 24px;
-
+      @include tablet {
+        display: none;
+      }
     }
 
     .title {
@@ -101,9 +121,9 @@ html {
     height: 80%;
     display: flex;
     overflow: hidden;
-    // @include tablet {
-    //  width: 90%;
-    // }
+    @include tablet {
+     width: 90%;
+    }
 
     .sidebar {
       flex: 1;
@@ -121,6 +141,9 @@ html {
 
         .logo {
           font-weight: bold;
+          @include tablet {
+            display: none;
+          }
         }
 
         .user {
@@ -144,10 +167,10 @@ html {
             cursor: pointer;
             align-self: stretch;
             padding: 0 5px;
-            // @include tablet {
-            //   position: absolute;
-            //   bottom: 10px;
-            // }
+            @include tablet {
+              position: absolute;
+              bottom: 10px;
+            }
           }
         }
       }
