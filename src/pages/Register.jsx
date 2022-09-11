@@ -2,41 +2,52 @@ import { useState } from 'react'
 import Add from '../assets/img/addAvatar.png'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { auth, storage } from '../firebase'
+import { auth, storage, db } from '../firebase'
+import { doc, setDoc } from 'firebase/firestore'
 
 const Register = () => {
   const [err, setErr] = useState(false)
+  const [imgUpload, setImgUpload] = useState(null)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const displayName = e.target[0].value
     const email = e.target[1].value
     const password = e.target[2].value
-    const file = e.target[3].value
-    const extension = file.split('.').pop()
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password)
       //Create a unique image name
       const date = new Date().getTime()
-      const storageRef = ref(storage, `${displayName + date}.${extension}`)
+      const storageRef = ref(storage, `${displayName + date}`)
 
-      const uploadTask = uploadBytesResumable(storageRef, file)
-
-      uploadTask.on(
-        (error) => {
-          setErr(true)
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            console.log(downloadURL)
+      await uploadBytesResumable(storageRef, imgUpload).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             })
-          })
-        }
-      )
+            //create user on firestore
+            await setDoc(doc(db, 'users', res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            })
+
+            //create empty user chats on firestore
+            // await setDoc(doc(db, 'userChats', res.user.uid), {})
+            // navigate('/')
+          } catch (err) {
+            console.log(err)
+            setErr(true)
+          }
+        })
+      })
     } catch (error) {
+      console.log(error)
       setErr(true)
     }
   }
@@ -47,10 +58,17 @@ const Register = () => {
         <span className='logo'>Nima Chat</span>
         <div className='register'>Register</div>
         <form onSubmit={handleSubmit}>
-          <input type='text' placeholder='Display Name' />
-          <input type='email' placeholder='Email' />
-          <input type='password' placeholder='Password' />
-          <input style={{ display: 'none' }} type='file' id='file' />
+          <input type='text' placeholder='Display Name' required />
+          <input type='email' placeholder='Email' required />
+          <input type='password' placeholder='Password' required />
+          <input
+            style={{ display: 'none' }}
+            accept='image/*'
+            type='file'
+            id='file'
+            onChange={(e) => setImgUpload(e.target.files[0])}
+            required
+          />
           <label htmlFor='file'>
             <img src={Add} alt='add an avatar label image' />
             <span>Add an avatar</span>
