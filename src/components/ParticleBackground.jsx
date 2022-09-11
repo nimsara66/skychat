@@ -17,6 +17,7 @@ const ParticleBackground = () => {
       id='tsparticles'
       init={particlesInit}
       options={particlesConfig}
+      className='particleBackground'
     />
   )
 }

@@ -33,7 +33,7 @@ html {
 }
 
 .formContainer {
-  background-color: #a7bcff;
+  background-color: rgba(34, 34, 34);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -108,14 +108,15 @@ html {
 }
 
 .home {
-  background-color: #a7bcff;
+  background-color: rgb(34, 34, 34);
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 
   .container {
-    border: 1px solid white;
+    // border: 2px solid #F2ECFF;
+    box-shadow: 0 0 0 2px #4e4e4e;
     border-radius: 10px;
     width: 65%;
     height: 80%;
@@ -161,7 +162,7 @@ html {
 
           button {
             background-color: #5d5b8d;
-            color: #ddddf7;
+            color: white;
             font-size: 10px;
             border: none;
             cursor: pointer;
@@ -237,7 +238,7 @@ html {
         align-items: center;
         justify-content: space-between;
         padding: 10px;
-        color: lightgray;
+        color: white;
       }
 
       .chatIcons {
@@ -266,7 +267,7 @@ html {
           .messageInfo {
             display: flex;
             flex-direction: column;
-            color: gray;
+            color: #333;
             font-weight: 300;
 
             img {
@@ -330,7 +331,7 @@ html {
           font-size: 18px;
 
           &::placeholder {
-            color: lightgray;
+            color: #555;
           }
         }
       }
@@ -349,10 +350,14 @@ html {
           border: none;
           padding: 10px 15px;
           color: white;
-          background-color: #8da4f1;
+          background-color: #6373a9;
           cursor: pointer;
         }
       }
     }
   }
+}
+
+.particleBackground {
+  opacity: .15;
 }
