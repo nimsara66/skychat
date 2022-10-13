@@ -1,15 +1,35 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
+import { useAuthContext } from '../context/AuthContext'
+import { useChatContext } from '../context/ChatContext'
 
-const Message = () => {
+const Message = ({ message }) => {
+  const { currentUser } = useAuthContext()
+  const { data } = useChatContext()
+
+  const ref = useRef()
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behaviour: 'smooth' })
+  }, [message])
+
   return (
-    <div className='message owner'>
+    <div
+      className={`message ${message.senderId === currentUser.uid && 'owner'}`}
+    >
       <div className='messageInfo'>
-      <img src='https://images.unsplash.com/photo-1662659511992-b84858a3e1d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80' alt='moreno profile image'/>
-      <span>just now</span>
+        <img
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data.user.photoURL
+          }
+          alt='moreno profile image'
+        />
+        <span>just now</span>
       </div>
       <div className='messageContent'>
-        <p>hello</p>
-        <img src='https://images.unsplash.com/photo-1662659511992-b84858a3e1d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=930&q=80' alt='moreno profile image'/>
+        <p>{message.text}</p>
+        {message.img && <img src={message.img} alt='moreno profile image' />}
       </div>
     </div>
   )

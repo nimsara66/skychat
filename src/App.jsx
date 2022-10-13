@@ -7,7 +7,7 @@ import './styles/_main.scss'
 
 function App() {
   const { currentUser } = useAuthContext()
-  console.log(currentUser)
+  // console.log(currentUser)
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
