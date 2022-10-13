@@ -13,7 +13,7 @@ const Chat = () => {
         <span>{data.user?.displayName}</span>
         <div className='chatIcons'>
           <img src={Cam} alt='camera icon' />
-          <img src={Add} alt='add contact icon' />
+          <img src={Add} alt='add to contact icon' />
           <img src={More} alt='more options icon' />
         </div>
       </div>
